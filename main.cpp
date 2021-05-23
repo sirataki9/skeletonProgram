@@ -1,0 +1,64 @@
+//----------------------------------
+//白瀧裕太
+//----------------------------------
+//
+#include "DxLib.h"
+
+
+// 定数宣言
+#define SCREEN_SIZE_X	800
+#define SCREEN_SIZE_Y	600
+
+// 変数宣言
+int GameCounter;
+
+// プロトタイプ宣言
+void GameMain(void);
+void GameDraw(void);
+
+int WINAPI WinMain(HINSTANCE , HINSTANCE , LPSTR, int)
+{
+	// システム処理
+	SetWindowText("1916017_白瀧裕太");
+	SetGraphMode(SCREEN_SIZE_X, SCREEN_SIZE_Y, 16);
+	ChangeWindowMode(true);
+
+	// DxLib初期化
+	if (DxLib_Init() == -1)
+	{
+		return -1;
+	}
+
+	SetDrawScreen(DX_SCREEN_BACK);
+
+	// グラフィックの登録
+
+	// 変数の初期化
+	GameCounter = 0;
+
+	// ゲームループ
+	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
+	{
+		ClsDrawScreen();
+
+		GameMain();
+		GameDraw();
+
+		ScreenFlip();
+	}
+
+	DxLib_End();     
+
+	return 0; 
+}
+
+void GameMain(void)
+{
+	GameCounter++;
+}
+
+void GameDraw(void)
+{
+	int Color = GetColor(255, 255,255);
+	DrawFormatString(0, 0, Color, "ゲームカウンター  %d",GameCounter);
+}
